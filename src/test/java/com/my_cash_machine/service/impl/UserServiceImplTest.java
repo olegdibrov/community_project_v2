@@ -1,5 +1,7 @@
 //package com.my_cash_machine.service.impl;
 //
+//import com.my_cash_machine.domen.User;
+//import com.my_cash_machine.service.UserService;
 //import com.my_cash_machine.utils.Roles;
 //import org.junit.jupiter.api.*;
 //import org.junit.jupiter.api.extension.ExtendWith;

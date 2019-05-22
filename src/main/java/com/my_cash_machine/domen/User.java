@@ -1,13 +1,16 @@
 package com.my_cash_machine.domen;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 
 @Entity
+@Transactional
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "email")
@@ -23,14 +26,28 @@ public class User {
     @Column(name = "role")
     private Integer role;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+
+    //@JoinColumn(name = "communityId")
+    @ManyToOne( fetch=FetchType.EAGER)
+    private Community communities;
+
     public User() {
     }
 
-    public User(String email, String password, String password_2, Integer role) {
+    public User(String email, String password, String password_2, Integer role, String name, String surname, Community communities) {
         this.email = email;
         this.password = password;
         this.password_2 = password_2;
         this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.communities = communities;
     }
 
     public Integer getId() {
@@ -53,6 +70,40 @@ public class User {
         return password;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", password_2='" + password_2 + '\'' +
+                ", role=" + role +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", communities=" + communities +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(password_2, user.password_2) &&
+                Objects.equals(role, user.role) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(communities, user.communities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, password_2, role, name, surname, communities);
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -73,20 +124,27 @@ public class User {
         this.role = role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(password_2, user.password_2) &&
-                Objects.equals(role, user.role);
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password, password_2, role);
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Community getCommunities() {
+        return communities;
+    }
+
+    public void setCommunities(Community communities) {
+        this.communities = communities;
     }
 }

@@ -1,6 +1,8 @@
 package com.my_cash_machine.controller;
 
+import com.my_cash_machine.domen.News;
 import com.my_cash_machine.domen.User;
+import com.my_cash_machine.service.NewsService;
 import com.my_cash_machine.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.my_cash_machine.utils.PassEncoding;
 import com.my_cash_machine.utils.Roles;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -25,6 +28,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    NewsService newsService;
 
 
     @RequestMapping({"/", "/login" })
@@ -39,6 +44,8 @@ public class UserController {
     public String home(Model model) {
 //        List<Product> products = productService.getAllProducts();
 //        model.addAttribute("products", products);
+        Collection<News> news = newsService.findAll();
+        model.addAttribute("news", news);
         logger.info("home");
         return "home";
     }

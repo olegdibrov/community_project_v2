@@ -1,10 +1,13 @@
 package com.my_cash_machine.domen;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Transactional
 @Table(name = "community")
 public class Community {
     @Id
@@ -14,15 +17,26 @@ public class Community {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy="communities")
-    private List<Person> personList;
+    @OneToMany(mappedBy="communities", fetch = FetchType.LAZY)
+    private List<User> personList;
+
+    @OneToMany
+    private List<News> news;
 
     public Community() {
     }
 
-    public Community(String name, List<Person> personList) {
+    public Community(String name, List<News> news) {
         this.name = name;
-        this.personList = personList;
+        this.news = news;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -33,12 +47,21 @@ public class Community {
         this.name = name;
     }
 
-    public List<Person> getPersonList() {
-        return personList;
+    public List<News> getNews() {
+        return news;
     }
 
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
+    public void setNews(List<News> news) {
+        this.news = news;
+    }
+
+    @Override
+    public String toString() {
+        return "Community{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", news=" + news +
+                '}';
     }
 
     @Override
@@ -46,20 +69,13 @@ public class Community {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Community community = (Community) o;
-        return Objects.equals(name, community.name) &&
-                Objects.equals(personList, community.personList);
+        return Objects.equals(id, community.id) &&
+                Objects.equals(name, community.name) &&
+                Objects.equals(news, community.news);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, personList);
-    }
-
-    @Override
-    public String toString() {
-        return "Community{" +
-                "name='" + name + '\'' +
-                ", personList=" + personList +
-                '}';
+        return Objects.hash(id, name, news);
     }
 }

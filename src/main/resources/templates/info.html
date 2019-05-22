@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Open Bill</title>
+    <title>Home</title>
     <meta name="description" content="spring-boot thymeleaf | home ">
     <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
+
+<div th:replace="fragments/header :: header"></div>
+
 <div class="tab-content">
+
     <div class="tab-pane active" id="addTaskTab">
         <div class="container">
             <div class="content-container clearfix">
                 <div class="row">
-                    <h1 class="content-title">Bills</h1>
+                    <h1 class="content-title">My Cabinet</h1>
                     <!--star operations messages-->
                     <div th:if="${msg eq 'success'}" class="alert alert-success alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert"
@@ -41,63 +45,95 @@
                         <button type="button" class="close" data-dismiss="alert"
                                 aria-hidden="true">&times;
                         </button>
+                        Task Sent to Trash Box
                     </div>
-                </div>
-                <div>
-
+                    <!--end of messages-->
+                    <!--<form th:object="${reqTask}" th:action="@{/task/saveTask}" method="post">-->
+                    <!--<div class="col-md-12">-->
+                    <!--<div class="form-group">-->
+                    <!--<input id="taskName" th:field="*{taskName}" type="text" class="form-control"-->
+                    <!--required="required"-->
+                    <!--placeholder="Task Name"/>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                    <!--<input th:field="*{description}" type="text" class="form-control" required="required"-->
+                    <!--placeholder="Description"/>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-md-4  input-group date" id='startDatePicker'>-->
+                    <!--<input th:field="*{taskDate}" class="form-control" name="taskDate"-->
+                    <!--required="required"-->
+                    <!--placeholder="Task Date" id="taskDate"/>-->
+                    <!--<span class="input-group-addon">-->
+                    <!--<span class="glyphicon glyphicon-calendar">-->
+                    <!--</span>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<textarea class="form-control" th:field="*{content}" placeholder="Details"-->
+                    <!--required="required"></textarea>-->
+                    <!--<div class="float-right btn-send">-->
+                    <!--<button class="btn btn-success btn-md"><span class="glyphicon glyphicon-send"></span>-->
+                    <!--Create-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br/>-->
+                    <!--</form>-->
                 </div>
                 <span class="help-block"></span>
+                <!--start Trash Task tab-->
                 <div class="row">
                     <div class="panel panel-info">
-                        <div></div>
                         <div class="panel-body">
                             <table class="table table-bordered  table-striped table-responsive">
                                 <thead>
                                 <tr class="btn-info">
-                                    <th>ID Bill</th>
-                                    <th>Date</th>
-                                    <th>Username</th>
-                                    <th>Bill Status</th>
-                                    <th>Open Bill</th>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Community</th>
+                                    <th>Save</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:if="${#lists.isEmpty(bills)}" class="btn-default">
-                                    <td colspan="5" align="center">No Bills Found</td>
+                                <tr>
+                                    <td th:text="${user.email}"></td>
+                                    <form method="post" th:action="@{/info/save}">
+
+                                        <td>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <input name="namee" type="text" th:placeholder="${user.name}">
+                                            </div>
+                                        <td>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <input name="surnamee" type="text" th:placeholder="${user.surname}">
+                                            </div>
+                                        </td>
+                                        <td th:text="${user.communities.name}"></td>
+                                        <!--<td th:hidden="${payment.bill.idBill}"></td>-->
+                                        <td>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </td>
+                                    </form>
+
                                 </tr>
 
-                                    <tr th:each="bill : ${bills}">
-                                        <form method="post" th:action="@{/bill/open_bill}">
-                                        <td th:text="${bill.idBill}"></td>
-                                        <td th:text="${bill.date}"></td>
-                                        <td th:text="${bill.user.username}"></td>
-                                        <td th:text="${bill.billStatus}"></td>
-                                        <input type="hidden" name="idBill" id="idBill" th:value="${bill.idBill}">
-                                        <td><button type="submit" class="btn btn-primary">Open Bill</button></td>
-                                        </form>
-                                    </tr>
                                 </tbody>
                             </table>
+
                         </div>
+
 
                     </div>
 
                 </div>
-                <!--end Trash task tab-->
             </div>
         </div>
     </div>
-
-    <!--<a>-->
-    <!--<form th:action="@{/new_bill}">-->
-    <!--<input class="btn" type="submit" value="New Bill"/>-->
-    <!--</form>-->
-    <!--</a>-->
-    <!--&lt;!&ndash; trash tab &ndash;&gt;-->
-    <!--th:class="${#request.getParameter('deletion')=='del'} ? ' tab-pane active' : 'tab-pane' "-->
 </div>
 <footer>
-    <div class="separator" th:replace="fragments/footer :: footer">&copy; 2016 pironix</div>
+    <div class="separator" th:replace="fragments/footer :: footer"></div>
 </footer>
 
 <script type="text/javascript">
